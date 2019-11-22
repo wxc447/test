@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>jQuery卷轴打开动画特效</title>
+<link rel="stylesheet" type="text/css" href="css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="css/zzsc.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<div class="content">
+	<div class="l-pic-index"></div>
+	<div class="r-pic-index"></div>
+	<div class="content">
+	<div class="l-bg-index"></div>
+	<div class="r-bg-index"></div>
+</div>
+	<div class="main-index">
+		
+	</div>
+</div>
+
+<script src="js/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	 $(document).ready(function(){
+		//  debugger
+			//卷轴展开动画效果
+			$(".l-pic-index").animate({'left':'2.1rem','top':'-0.125rem'},1300);
+			$(".r-pic-index").animate({'right':'0.7188rem','top':'0.1563rem'},1450);
+			$(".l-bg-index").animate({'width':'13.4375rem','left':'3.6875rem'},1300);
+			$(".r-bg-index").animate({'width':'13.4375rem','right':'1.9375rem'},1300                                                                               ,function(){
+				$(".main-index").fadeIn(800);
+			});
+		});
+</script>
+</body>
+</html>
