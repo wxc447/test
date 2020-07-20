@@ -120,6 +120,7 @@
 		          lng: position.coords.longitude
 		        };
 		        console.log(position);
+				alert(JSON.stringify(position))
 		        infoWindow.setPosition(pos);
 		        infoWindow.setContent('<b>You are here.</b>');
 		        map.setCenter(pos);
