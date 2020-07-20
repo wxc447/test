@@ -131,10 +131,12 @@
 		        });
 		      }, function() {
 				  console.log("error")
+				  alert("error")
 		        handleLocationError(true, infoWindow, map.getCenter());
 		      });
 		    } else {
 				 console.log("error")
+				  alert("error")
 		      // Browser doesn't support Geolocation
 		      handleLocationError(false, infoWindow, map.getCenter());
 		    }
