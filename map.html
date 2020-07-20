@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<title>Places Search Box</title>
 		<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 		<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw
 &callback=initAutocomplete&libraries=places&v=weekly&language=fr&region=FR"
 		 defer></script> -->
-		  <script async defer
-		         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw&signed_in=true&callback=initAutocomplete&libraries=places&v=weekly&language=fr&region=FR"></script>
+	<!-- 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw&signed_in=true&callback=initAutocomplete&libraries=places&v=weekly&language=fr&region=FR"></script> -->
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw&signed_in=true&callback=initAutocomplete&libraries=places&v=weekly&language=zh&region=ZH"></script>
 		<style type="text/css">
 			/* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -95,23 +95,76 @@
 			#target {
 				width: 345px;
 			}
-			.search-box{
+
+			.search-box {
 				display: flex;
-				
+
 			}
 		</style>
 		<script>
 			(function(exports) {
         "use strict";
-
-   
+		 let geoCoder="";
+		 let infowindow = "";
+		 function geocodeLatLng(geocoder, map, infowindow,lat,lng) {
+		   // var input = document.getElementById('latlng').value;
+		   // var latlngStr = input.split(',', 2);
+		   var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
+		   geocoder.geocode({'location': latlng}, function(results, status) {
+		     if (status === 'OK') {
+		       if (results[0]) {
+		         map.setZoom(11);
+		         var marker = new google.maps.Marker({
+		           position: latlng,
+		           map: map
+		         });
+		         infowindow.setContent(results[0].formatted_address);
+		         infowindow.open(map, marker);
+		       } else {
+		         window.alert('No results found');
+		       }
+		     } else {
+		       window.alert('Geocoder failed due to: ' + status);
+		     }
+		   });
+		 }
+	 function GetGeoCoder() {
+	          var searchAddress = document.getElementById("pac-input").value()
+	          geoCoder.geocode({
+	              'address': searchAddress
+	          },
+	          function(results, state) {
+				  console.log(results,state)
+	              if (state = google.maps.GeocoderStatus.OK) {
+	                  if (results[0]) {
+	                      var point = results[0].geometry.location;
+	                      if (marker) {
+	                          marker.setMap(null);
+	                      }
+	                      marker = new google.maps.Marker({
+	                          map: map,
+	                          position: point
+	                      });
+	                      var infowindow = new google.maps.InfoWindow({
+	                          content: '<h3>我在这里.</h3>' + results[0].formatted_address
+	                      });
+	                      google.maps.event.addListener(marker, 'click',
+	                      function() {
+	                          infowindow.open(map, marker);
+	                      });
+	                      map.setCenter(point);
+	  
+	                  }
+	              }
+	          })
+	      }
         function initAutocomplete() {
           var map = new google.maps.Map(document.getElementById("map"), {
             center: {
               lat: -33.8688,
               lng: 151.2195
             },
-            zoom: 13,
+            zoom: 15,
             mapTypeId: "roadmap",
 			mapTypeControlOptions: {
 			      mapTypeIds: []//去除地形
@@ -119,7 +172,12 @@
 			      //style: google.maps.MapTypeControlStyle.DROPDOWN_MENU //将地图类型以下拉框的形式显示
 			    }
 			
-          }); // Create the search box and link it to the UI element.
+          }); 
+		   geoCoder = new google.maps.Geocoder();
+		   infowindow = new google.maps.InfoWindow
+		   // console.log(geoCoder)
+		   
+		  // Create the search box and link it to the UI element.
 		    if (navigator.geolocation) {
 		      navigator.geolocation.getCurrentPosition(function(position) {	
 		        var pos = {
@@ -127,6 +185,9 @@
 		          lng: position.coords.longitude
 		        };
 		        console.log(position);
+				 geoCoder.geocode({
+				                      'latLng': pos
+				                  }),
 				// alert(JSON.stringify(position))
 		        // infoWindow.setPosition(pos);
 		        // infoWindow.setContent('<b>You are here.</b>');
@@ -137,6 +198,7 @@
 		          map: map,
 		          title: String(pos.lat) + ", " + String(pos.lng),
 		        });
+				geocodeLatLng(geoCoder, map, infowindow,pos.lat,pos.lng);
 		      }, function() {
 				  console.log("error")
 				  alert("error")
@@ -220,9 +282,9 @@
 	</head>
 	<body>
 		<div id="search-box">
-		<input id="pac-input" class="controls" type="text" placeholder="Search Box" />	<button type="button">confirm</button>
+			<input id="pac-input" class="controls" type="text" placeholder="Search Box" /> <button type="button">confirm</button>
 		</div>
-		
+
 		<div id="map"></div>
 	</body>
 </html>
