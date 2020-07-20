@@ -7,7 +7,7 @@
 		<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw
 &callback=initAutocomplete&libraries=places&v=weekly&language=fr&region=FR"
 		 defer></script> -->
-	<!-- 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw&signed_in=true&callback=initAutocomplete&libraries=places&v=weekly&language=fr&region=FR"></script> -->
+		<!-- 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw&signed_in=true&callback=initAutocomplete&libraries=places&v=weekly&language=fr&region=FR"></script> -->
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw&signed_in=true&callback=initAutocomplete&libraries=places&v=weekly&language=zh&region=ZH"></script>
 		<style type="text/css">
 			/* Always set the map height explicitly to define the size of the div
@@ -29,7 +29,9 @@
 				font-size: 15px;
 				font-weight: 300;
 			}
-
+			.gm-fullscreen-control{
+				display: none;
+				}
 			#infowindow-content .title {
 				font-weight: bold;
 			}
@@ -74,14 +76,21 @@
 				font-family: Roboto;
 				font-size: 15px;
 				font-weight: 300;
-				margin-left: 12px;
+				/* margin-left: 12px; */
 				padding: 0 11px 0 13px;
+				box-sizing: border-box;
 				text-overflow: ellipsis;
-				width: 400px;
+				/* width: 400px; */
+				width: 100%;
+				border-radius: 20px;
+				/* max-width: 750px; */
+				border: 1px solid #999;
+				height: 30px;
 			}
 
 			#pac-input:focus {
 				border-color: #4d90fe;
+				
 			}
 
 			#title {
@@ -112,14 +121,22 @@
 		   var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
 		   geocoder.geocode({'location': latlng}, function(results, status) {
 		     if (status === 'OK') {
+				
 		       if (results[0]) {
-		         map.setZoom(11);
+		         map.setZoom(18);
 		         var marker = new google.maps.Marker({
 		           position: latlng,
 		           map: map
 		         });
-		         infowindow.setContent(results[0].formatted_address);
-		         infowindow.open(map, marker);
+				 console.log(results)
+				 for(var i in results){
+				 					 if(results[i].types[0]=="route"){
+							infowindow.setContent(results[i].formatted_address);
+							infowindow.open(map, marker);			 
+				 }
+				 }
+		         // infowindow.setContent(results[0].formatted_address);
+		         // infowindow.open(map, marker);
 		       } else {
 		         window.alert('No results found');
 		       }
@@ -166,6 +183,7 @@
             },
             zoom: 15,
             mapTypeId: "roadmap",
+			streetViewControl:false,
 			mapTypeControlOptions: {
 			      mapTypeIds: []//去除地形
 			      // mapTypeIds: ['roadmap','satellite','hybrid','terrain'],左上方地图类型控件['地图','卫星图像','地名','地形']
@@ -264,6 +282,8 @@
                   position: place.geometry.location
                 })
               );
+			  console.log(place.geometry.location.lat())
+			  geocodeLatLng(geoCoder, map, infowindow,place.geometry.location.lat(),place.geometry.location.lng());
 
               if (place.geometry.viewport) {
                 // Only geocodes have viewport.
