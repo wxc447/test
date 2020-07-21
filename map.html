@@ -353,6 +353,7 @@ function setAllMap(map) {
 		             };
 					 let confirmBtn=document.getElementById("confirm");
 					 confirm.onclick=function(){
+						console.log("sendMessage")
 						 uni.postMessage({
 						             data: {
 						                 action: 'message'
