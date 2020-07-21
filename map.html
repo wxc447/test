@@ -9,11 +9,12 @@
 		 defer></script> -->
 		<!-- 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw&signed_in=true&callback=initAutocomplete&libraries=places&v=weekly&language=fr&region=FR"></script> -->
 		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw&signed_in=true&callback=initAutocomplete&libraries=places&v=weekly&language=zh&region=ZH"></script>
+		<script src="jquery-3.5.1.js" type="text/javascript" charset="utf-8"></script>
 		<style type="text/css">
 			/* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
 			#map {
-				height: 100%;
+				height: 48%;
 			}
 
 			/* Optional: Makes the sample page fill the window. */
@@ -24,14 +25,31 @@
 				padding: 0;
 			}
 
+			#btn {
+				position: absolute;
+				top: 2px;
+				right: 20px;
+				z-index: 20;
+			}
+
+			button {
+				padding: 6px 12px;
+				border-radius: 10px;
+				background-color: #25c985;
+				border: 0;
+				color: #fff;
+			}
+
 			#description {
 				font-family: Roboto;
 				font-size: 15px;
 				font-weight: 300;
 			}
-			.gm-fullscreen-control{
+
+			.gm-fullscreen-control {
 				display: none;
-				}
+			}
+
 			#infowindow-content .title {
 				font-weight: bold;
 			}
@@ -81,16 +99,17 @@
 				box-sizing: border-box;
 				text-overflow: ellipsis;
 				/* width: 400px; */
-				width: 100%;
+				width: 70%;
 				border-radius: 20px;
 				/* max-width: 750px; */
 				border: 1px solid #999;
 				height: 30px;
+				outline: none;
 			}
 
 			#pac-input:focus {
 				border-color: #4d90fe;
-				
+
 			}
 
 			#title {
@@ -109,13 +128,95 @@
 				display: flex;
 
 			}
+
+			#right-panel {
+				font-family: "Roboto", "sans-serif";
+				line-height: 30px;
+				padding-left: 10px;
+			}
+
+			#right-panel select,
+			#right-panel input {
+				font-size: 15px;
+			}
+
+			#right-panel select {
+				width: 100%;
+			}
+
+			#right-panel i {
+				font-size: 12px;
+			}
+
+			#right-panel {
+				font-family: Arial, Helvetica, sans-serif;
+				position: absolute;
+				/* right: 5px; */
+				bottom: 10px;
+				margin-top: -195px;
+				height: 50%;
+				/* width: 200px; */
+				/* padding: 5px; */
+				z-index: 5;
+				/* border: 1px solid #999; */
+				background: #fff;
+				width: 100%;
+				/* box-sizing: border-box; */
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				box-sizing: border-box;
+				padding: 0;
+			}
+
+			h2 {
+				font-size: 22px;
+				/* margin: 0 0 5px 0; */
+			}
+
+			ul {
+				list-style-type: none;
+				padding: 0;
+				margin: 0;
+				/* height: 271px; */
+				width: 100%;
+				/* padding: 0 30px; */
+				box-sizing: border-box;
+				/* width: 200px;/ */
+				overflow-y: scroll;
+				border: 0;
+			}
+
+			li {
+				background-color: #f1f1f1;
+				padding: 10px;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+				font-size: 14px;
+			}
+
+			li:nth-child(odd) {
+				background-color: #fcfcfc;
+			}
+
+			#more {
+				width: 30%;
+				margin: 5px 0 0 0;
+				height: 70px;
+			}
 		</style>
 		<script>
 			(function(exports) {
         "use strict";
 		 let geoCoder="";
 		 let infowindow = "";
-		 function geocodeLatLng(geocoder, map, infowindow,lat,lng) {
+		 let infoWindow="";
+		var mark=[];
+		let time="";
+		 var getNextPage = null;
+		 function geocodeLatLng(geocoder, map, infowindow,lat,lng,mask) {
 		   // var input = document.getElementById('latlng').value;
 		   // var latlngStr = input.split(',', 2);
 		   var latlng = {lat: parseFloat(lat), lng: parseFloat(lng)};
@@ -123,11 +224,37 @@
 		     if (status === 'OK') {
 				
 		       if (results[0]) {
+				   if(!mask){
+					 var marker = new google.maps.Marker({
+					   position: latlng,
+					   map: map
+					 });  
+					   
+				   }else{
+					   console.log("mask")
+					   // getNear()
+					   for(var i in results){
+					   					 if(results[i].types[0]=="route"){
+											 console.log(results[i])
+											 var infowindows = new google.maps.InfoWindow({
+											     content: '<h3>我在这里.</h3>' + results[i].formatted_address
+											 });
+											 // try{
+												//  infoWindow.setContent(results[i].formatted_address);
+												//  infoWindow.open(map);
+											 // }catch(err){
+												//  console.log(err)
+												//   console.log(infoWindow)
+											 // }
+					   						
+															
+					   }
+					  
+				   }
+				    return false
+				   }
 		         map.setZoom(18);
-		         var marker = new google.maps.Marker({
-		           position: latlng,
-		           map: map
-		         });
+		       
 				 console.log(results)
 				 for(var i in results){
 				 					 if(results[i].types[0]=="route"){
@@ -156,7 +283,7 @@
 	                  if (results[0]) {
 	                      var point = results[0].geometry.location;
 	                      if (marker) {
-	                          marker.setMap(null);
+	                          marker.setAllMap(null);
 	                      }
 	                      marker = new google.maps.Marker({
 	                          map: map,
@@ -175,6 +302,24 @@
 	              }
 	          })
 	      }
+		  function clearMarkers() {
+		    setAllMap(null);
+		  }
+
+function setAllMap(map) {
+  for (var i = 0; i < mark.length; i++) {
+    mark[i].setMap(map);
+  }
+}
+	 function getNear(){
+			
+		$.ajax({method:"post",url:"https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw",dataType:"jsonp",data:{},success:(res=>{
+			console.log(res)
+		}),fail:(err=>{
+			console.log(err)
+		})
+		})
+	}
         function initAutocomplete() {
           var map = new google.maps.Map(document.getElementById("map"), {
             center: {
@@ -184,6 +329,7 @@
             zoom: 15,
             mapTypeId: "roadmap",
 			streetViewControl:false,
+			gestureHandling: 'greedy',
 			mapTypeControlOptions: {
 			      mapTypeIds: []//去除地形
 			      // mapTypeIds: ['roadmap','satellite','hybrid','terrain'],左上方地图类型控件['地图','卫星图像','地名','地形']
@@ -191,10 +337,73 @@
 			    }
 			
           }); 
+  
 		   geoCoder = new google.maps.Geocoder();
 		   infowindow = new google.maps.InfoWindow
+		   infoWindow = new google.maps.InfoWindow
 		   // console.log(geoCoder)
+		   console.log(map.getCenter().lat())
+		   console.log(map.getCenter().lng())
+		   map.getCenter()
+		   var moreButton = document.getElementById("more");
 		   
+		             moreButton.onclick = function() {
+		               moreButton.disabled = true;
+		               if (getNextPage) getNextPage();
+		             };
+		  var service = new google.maps.places.PlacesService(map);
+		                  service.nearbySearch({
+		                  location: {lat: -33.8688,
+              lng: 151.2195},
+		                  radius: 500},
+						  function(results, status, pagination) {
+						                if (status !== "OK") return;
+										console.log(results)
+										let places=JSON.parse(JSON.stringify(results))
+						                // createMarkers(results);？
+						                // moreButton.disabled = !pagination.hasNextPage;
+										 var placesList = document.getElementById("places");
+										 placesList.innerHTML=""
+										for (var i = 0, place; (place = places[i]); i++) {
+										 var li = document.createElement("li");
+										            li.textContent = place.name;
+										            placesList.appendChild(li);
+													 // bounds.extend(results.geometry.location);
+													}
+										           
+										console.log(results,status);
+										console.log(pagination);
+						                getNextPage =
+						                  pagination.hasNextPage &&
+						                  function() {
+						                    pagination.nextPage();
+						                  };
+						              }
+		                 
+		              );
+		   google.maps.event.addListener(map, 'dragstart', function() {  
+			   
+			   console.log(111)
+			   console.log(map.getCenter().lat())
+			   console.log(map.getCenter().lng())
+			   map.getCenter()
+			   console.log(new google.maps.LatLng(-33.91721, 151.22630))
+			   console.log(mark)
+				if (mark!="") {
+				   mark.setMap(null); 
+				}
+				clearTimeout(time)
+				time=setTimeout(()=>{
+					mark = new google.maps.Marker({
+					          position:{lat:map.getCenter().lat(),lng:map.getCenter().lng()} ,
+					          icon: "https://www.easyicon.net/api/resizeApi.php?id=1185658&size=32",
+					          map: map
+					        });
+						geocodeLatLng(geoCoder, map, infowindow,map.getCenter().lat(),map.getCenter().lng(),true);	
+					   // updateMarkerAddress('正在搜索...');  
+					 },1000);
+				})
+			   
 		  // Create the search box and link it to the UI element.
 		    if (navigator.geolocation) {
 		      navigator.geolocation.getCurrentPosition(function(position) {	
@@ -229,11 +438,7 @@
 		      handleLocationError(false, infoWindow, map.getCenter());
 		    }
 		   // console.log(point)
-		   var marker = new google.maps.Marker({
-		              position: new google.maps.LatLng(-33.91721, 151.22630),
-		              icon: "https://www.easyicon.net/api/resizeApi.php?id=1185658&size=16",
-		              map: map
-		            });
+		 
 			map.getCenter();
 			console.log(map.getCenter().lat())
 			console.log(map.getCenter().lng())
@@ -298,14 +503,23 @@
 
         exports.initAutocomplete = initAutocomplete;
       })((this.window = this.window || {}));
+	  
+	  
     </script>
 	</head>
 	<body>
 		<div id="search-box">
-			<input id="pac-input" class="controls" type="text" placeholder="Search Box" /> 
+
 			<!-- <button type="button">confirm</button> -->
 		</div>
-
+		<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
+		<div id="btn">
+			<button>confirm</button>
+		</div>
 		<div id="map"></div>
+		<div id="right-panel">
+			<ul id="places"></ul>
+			<button id="more">More results</button>
+		</div>
 	</body>
 </html>
