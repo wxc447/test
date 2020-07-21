@@ -353,8 +353,8 @@ function setAllMap(map) {
 		             };
 		  var service = new google.maps.places.PlacesService(map);
 		                  service.nearbySearch({
-		                  location: {lat: -33.8688,
-              lng: 151.2195},
+		                  location: {lat: map.getCenter().lat(),
+              lng: map.getCenter().lng()},
 		                  radius: 500},
 						  function(results, status, pagination) {
 						                if (status !== "OK") return;
@@ -363,7 +363,7 @@ function setAllMap(map) {
 						                // createMarkers(results);？
 						                // moreButton.disabled = !pagination.hasNextPage;
 										 var placesList = document.getElementById("places");
-										 placesList.innerHTML=""
+										 placesList.innerHTML="";
 										for (var i = 0, place; (place = places[i]); i++) {
 										 var li = document.createElement("li");
 										            li.textContent = place.name;
@@ -402,7 +402,39 @@ function setAllMap(map) {
 						geocodeLatLng(geoCoder, map, infowindow,map.getCenter().lat(),map.getCenter().lng(),true);	
 					   // updateMarkerAddress('正在搜索...');  
 					 },1000);
+					 var service = new google.maps.places.PlacesService(map);
+					                 service.nearbySearch({
+					                 location: {lat: map.getCenter().lat(),
+					     lng: map.getCenter().lng()},
+					                 radius: 500},
+					 						  function(results, status, pagination) {
+												  
+					 						                if (status !== "OK"){ let places=JSON.parse(JSON.stringify(results)); placesList.innerHTML=""; return;}
+					 										console.log(results)
+					 										let places=JSON.parse(JSON.stringify(results))
+					 						                // createMarkers(results);？
+					 						                // moreButton.disabled = !pagination.hasNextPage;
+					 										 var placesList = document.getElementById("places");
+					 										 placesList.innerHTML=""
+					 										for (var i = 0, place; (place = places[i]); i++) {
+					 										 var li = document.createElement("li");
+					 										            li.textContent = place.name;
+					 										            placesList.appendChild(li);
+					 													 // bounds.extend(results.geometry.location);
+					 													}
+					 										           
+					 										console.log(results,status);
+					 										console.log(pagination);
+					 						                getNextPage =
+					 						                  pagination.hasNextPage &&
+					 						                  function() {
+					 						                    pagination.nextPage();
+					 						                  };
+					 						              }
+					                
+					             );
 				})
+				
 			   
 		  // Create the search box and link it to the UI element.
 		    if (navigator.geolocation) {
