@@ -311,15 +311,7 @@ function setAllMap(map) {
     mark[i].setMap(map);
   }
 }
- let confirmBtn=document.getElementById("confirm");
-					 confirm.onclick=function(){
-						console.log("sendMessage")
-						 uni.postMessage({
-						             data: {
-						                 action: 'message'
-						             }
-						         });
-					 };
+
 	 function getNear(){
 			
 		$.ajax({method:"post",url:"https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw",dataType:"jsonp",data:{},success:(res=>{
@@ -360,7 +352,15 @@ function setAllMap(map) {
 		               moreButton.disabled = true;
 		               if (getNextPage) getNextPage();
 		             };
-					
+					let confirmBtn=document.getElementById("confirm");
+										 confirmBtn.onclick=function(){
+											console.log("sendMessage")
+											 uni.postMessage({
+											             data: {
+											                 action: 'message'
+											             }
+											         });
+										 };
 		  var service = new google.maps.places.PlacesService(map);
 		                  service.nearbySearch({
 		                  location: {lat: map.getCenter().lat(),
