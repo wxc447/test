@@ -351,6 +351,14 @@ function setAllMap(map) {
 		               moreButton.disabled = true;
 		               if (getNextPage) getNextPage();
 		             };
+					 let confirmBtn=document.getElementById("confirm");
+					 confirm.onclick=function(){
+						 uni.postMessage({
+						             data: {
+						                 action: 'message'
+						             }
+						         });
+					 };
 		  var service = new google.maps.places.PlacesService(map);
 		                  service.nearbySearch({
 		                  location: {lat: map.getCenter().lat(),
@@ -546,7 +554,7 @@ function setAllMap(map) {
 		</div>
 		<input id="pac-input" class="controls" type="text" placeholder="Search Box" />
 		<div id="btn">
-			<button>confirm</button>
+			<button id="confirm">confirm</button>
 		</div>
 		<div id="map"></div>
 		<div id="right-panel">
