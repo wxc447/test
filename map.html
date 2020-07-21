@@ -355,7 +355,7 @@ function setAllMap(map) {
 					let confirmBtn=document.getElementById("confirm");
 										 confirmBtn.onclick=function(){
 											console.log("sendMessage")
-											 uni.postMessage({
+											 window.postMessage({
 											             data: {
 											                 action: 'message'
 											             }
