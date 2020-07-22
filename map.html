@@ -356,25 +356,36 @@ function setAllMap(map) {
 		               moreButton.disabled = true;
 		               if (getNextPage) getNextPage();
 		             };
-					 document.addEventListener('UniAppJSBridgeReady', function() {
-					        //向uniapp传值
-					        uni.postMessage({
-					            data: {
-					                action: 'message'
-					            }
-					        });
-					        uni.getEnv(function(res) {
-					            console.log('当前环境：' + JSON.stringify(res));
-					        });
-					    });
+					
 					let confirmBtn=document.getElementById("confirm");
 										 confirmBtn.onclick=function(){
+											 try{
+												document.addEventListener('UniAppJSBridgeReady', function() {
+												       //向uniapp传值
+												       uni.postMessage({
+												           data: {
+												               action: 'message'
+												           }
+												       });
+												       uni.getEnv(function(res) {
+												           console.log('当前环境：' + JSON.stringify(res));
+												       });
+												   }); 
+											 }catch(err){
+												console.log(err) 
+											 }
 											
-											 uni.postMessage({
-											             data: {
-											                 action: 'message'
-											             }
-											         });
+											   try{
+											   	uni.postMessage({
+											   	            data: {
+											   	                action: 'message'
+											   	            }
+											   	        });
+											   }catch(e){
+												   console.log(e)
+											   	//TODO handle the exception
+											   }
+											
 										 };
 		  var service = new google.maps.places.PlacesService(map);
 		                  service.nearbySearch({
