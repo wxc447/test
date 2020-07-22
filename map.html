@@ -358,7 +358,17 @@ function setAllMap(map) {
 		             };
 					let confirmBtn=document.getElementById("confirm");
 										 confirmBtn.onclick=function(){
-											console.log("sendMessage")
+											 document.addEventListener('UniAppJSBridgeReady', function() {
+											        //向uniapp传值
+											        uni.postMessage({
+											            data: {
+											                action: 'message'
+											            }
+											        });
+											        uni.getEnv(function(res) {
+											            console.log('当前环境：' + JSON.stringify(res));
+											        });
+											    });
 											 uni.postMessage({
 											             data: {
 											                 action: 'message'
