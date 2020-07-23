@@ -217,6 +217,7 @@
 		var mark=[];
 		let time="";
 		let myPosition={};
+		let index=0;
 		 var getNextPage = null;
 		 function geocodeLatLng(geocoder, map, infowindow,lat,lng,mask) {
 		   // var input = document.getElementById('latlng').value;
@@ -376,7 +377,8 @@ function setAllMap(map) {
 										 confirmBtn.onclick=function(){
 											 try{
 												document.addEventListener('UniAppJSBridgeReady', function() {
-												       //向uniapp传值
+														
+													   //向uniapp传值
 												       uni.postMessage({
 												           data: {
 												               action: 'message'
@@ -454,7 +456,15 @@ function setAllMap(map) {
 					 										          	// 这是一个闭包函数(IIFE)，立即执行函数
 					 										              // 接收i的值保存在j中，这个j会一直保存在这个函数作用域
 					 										              liList[j].onclick = function () {
-					 										                console.log(j)
+					 										               console.log(liList[j])
+																			liList[j].style.color="#15c180"
+																			index=j;
+																			for(let k in liList){
+																				if(k!=j){
+																					liList[k].style.color="#333"
+																				}
+																			}
+																			console.log(j)
 					 										              }
 					 										          
 					 										            })(i);// 这里可以看成函数的入口，传入i
@@ -524,6 +534,14 @@ function setAllMap(map) {
 					 										               // 接收i的值保存在j中，这个j会一直保存在这个函数作用域
 					 										               liList[j].onclick = function () {
 					 										                 console.log(j)
+																			  console.log(liList[j]);
+																			  liList[j].style.color="#15c180"
+																			index=j;
+																			for(let k in liList){
+																				if(k!=j){
+																					liList[k].style.color="#333"
+																				}
+																			}
 					 										               }
 					 										           
 					 										             })(i)// 这里可以看成函数的入口，传入i
