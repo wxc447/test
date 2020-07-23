@@ -382,7 +382,7 @@ function setAllMap(map) {
 													   //向uniapp传值
 												       uni.postMessage({
 												           data: {
-												               action: 'message',
+												               action: 'message0',
 															   place:placesArr,
 															   index:index
 												           }
@@ -398,7 +398,10 @@ function setAllMap(map) {
 											   try{
 											   	uni.postMessage({
 											   	            data: {
-											   	                action: 'message'
+											   	                action: 'message1',
+																
+																place:placesArr,
+																index:index
 											   	            }
 											   	        });
 											   }catch(e){
