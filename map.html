@@ -219,6 +219,7 @@
 		let myPosition={};
 		let index=0;
 		 var getNextPage = null;
+		 let placesArr=[];
 		 function geocodeLatLng(geocoder, map, infowindow,lat,lng,mask) {
 		   // var input = document.getElementById('latlng').value;
 		   // var latlngStr = input.split(',', 2);
@@ -381,7 +382,9 @@ function setAllMap(map) {
 													   //向uniapp传值
 												       uni.postMessage({
 												           data: {
-												               action: 'message'
+												               action: 'message',
+															   place:placesArr,
+															   index:index
 												           }
 												       });
 												       uni.getEnv(function(res) {
@@ -439,6 +442,7 @@ function setAllMap(map) {
 					 						                if (status !== "OK"){ let places=JSON.parse(JSON.stringify(results)); var placesList = document.getElementById("places"); placesList.innerHTML=""; return;}
 					 										console.log(results)
 					 										let places=JSON.parse(JSON.stringify(results))
+															placesArr=JSON.parse(JSON.stringify(results))
 					 						                // createMarkers(results);？
 					 						                // moreButton.disabled = !pagination.hasNextPage;
 					 										 var placesList = document.getElementById("places");
@@ -514,6 +518,7 @@ function setAllMap(map) {
 					 						                if (status !== "OK"){ let places=JSON.parse(JSON.stringify(results)); placesList.innerHTML=""; return;}
 					 										console.log(results)
 					 										let places=JSON.parse(JSON.stringify(results))
+																placesArr=JSON.parse(JSON.stringify(results))
 					 						                // createMarkers(results);？
 					 						                // moreButton.disabled = !pagination.hasNextPage;
 					 										 var placesList = document.getElementById("places");
