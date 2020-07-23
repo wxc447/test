@@ -4,7 +4,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<title>Places Search Box</title>
 		<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-		<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.1.js"></script>  
+		<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.1.js"></script>
 		<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw
 &callback=initAutocomplete&libraries=places&v=weekly&language=fr&region=FR"
 		 defer></script> -->
@@ -216,6 +216,7 @@
 		 let infoWindow="";
 		var mark=[];
 		let time="";
+		let myPosition={};
 		 var getNextPage = null;
 		 function geocodeLatLng(geocoder, map, infowindow,lat,lng,mask) {
 		   // var input = document.getElementById('latlng').value;
@@ -313,16 +314,33 @@ function setAllMap(map) {
   }
 }
 
-	 function getNear(){
+	//  function getNear(){
 			
-		$.ajax({method:"post",url:"https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw",dataType:"jsonp",data:{},success:(res=>{
-			console.log(res)
-		}),fail:(err=>{
-			console.log(err)
-		})
-		})
-	}
+	// 	$.ajax({method:"post",url:"https://maps.googleapis.com/maps/api/place/nearbysearch/json?pagetoken=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw",dataType:"jsonp",data:{},success:(res=>{
+	// 		console.log(res)
+	// 	}),fail:(err=>{
+	// 		console.log(err)
+	// 	})
+	// 	})
+	// }\
+		function showPosition(position){
+			console.log(position)
+			let lng =position.coords.longitude;
+			let lat=position.coords.latitude;
+			console.log(lng)
+			console.log(lat)
+			myPosition.lng=lng;
+			myPosition.lat=lat;
+			
+		}
         function initAutocomplete() {
+			 // (navigator.geolocation)
+			 //                {
+			          
+						
+						
+			                // }
+			              console.log(myPosition)
           var map = new google.maps.Map(document.getElementById("map"), {
             center: {
               lat: -33.8688,
@@ -347,12 +365,12 @@ function setAllMap(map) {
 		   console.log(map.getCenter().lat())
 		   console.log(map.getCenter().lng())
 		   map.getCenter()
-		   var moreButton = document.getElementById("more");
+		   // var moreButton = document.getElementById("more");
 		   
-		             moreButton.onclick = function() {
-		               moreButton.disabled = true;
-		               if (getNextPage) getNextPage();
-		             };
+		             // moreButton.onclick = function() {
+		             //   moreButton.disabled = true;
+		             //   if (getNextPage) getNextPage();
+		             // };
 					
 					let confirmBtn=document.getElementById("confirm");
 										 confirmBtn.onclick=function(){
@@ -384,36 +402,10 @@ function setAllMap(map) {
 											   }
 											
 										 };
-		  var service = new google.maps.places.PlacesService(map);
-		                  service.nearbySearch({
-		                  location: {lat: map.getCenter().lat(),
-              lng: map.getCenter().lng()},
-		                  radius: 500},
-						  function(results, status, pagination) {
-						                if (status !== "OK") return;
-										console.log(results)
-										let places=JSON.parse(JSON.stringify(results))
-						                // createMarkers(results);？
-						                // moreButton.disabled = !pagination.hasNextPage;
-										 var placesList = document.getElementById("places");
-										 placesList.innerHTML="";
-										for (var i = 0, place; (place = places[i]); i++) {
-										 var li = document.createElement("li");
-										            li.textContent = place.name;
-										            placesList.appendChild(li);
-													 // bounds.extend(results.geometry.location);
-													}
-										           
-										console.log(results,status);
-										console.log(pagination);
-						                getNextPage =
-						                  pagination.hasNextPage &&
-						                  function() {
-						                    pagination.nextPage();
-						                  };
-						              }
-		                 
-		              );
+			// 点击<li></li>
+				
+				
+			
 		   google.maps.event.addListener(map, 'dragstart', function() {  
 			   
 			   console.log(111)
@@ -429,7 +421,7 @@ function setAllMap(map) {
 				time=setTimeout(()=>{
 					mark = new google.maps.Marker({
 					          position:{lat:map.getCenter().lat(),lng:map.getCenter().lng()} ,
-					          icon: "https://www.easyicon.net/api/resizeApi.php?id=1185658&size=32",
+					          icon: "https://www.easyicon.net/api/resizeApi.php?id=1185658&size=24",
 					          map: map
 					        });
 						geocodeLatLng(geoCoder, map, infowindow,map.getCenter().lat(),map.getCenter().lng(),true);	
@@ -442,7 +434,7 @@ function setAllMap(map) {
 					                 radius: 500},
 					 						  function(results, status, pagination) {
 												  
-					 						                if (status !== "OK"){ let places=JSON.parse(JSON.stringify(results)); placesList.innerHTML=""; return;}
+					 						                if (status !== "OK"){ let places=JSON.parse(JSON.stringify(results)); var placesList = document.getElementById("places"); placesList.innerHTML=""; return;}
 					 										console.log(results)
 					 										let places=JSON.parse(JSON.stringify(results))
 					 						                // createMarkers(results);？
@@ -455,7 +447,18 @@ function setAllMap(map) {
 					 										            placesList.appendChild(li);
 					 													 // bounds.extend(results.geometry.location);
 					 													}
-					 										           
+					 										          let liList= document.getElementsByTagName("li");
+					 										          console.log(liList)
+					 										          for (var i = 0, len = liList.length; i < len; ++i) {
+					 										            (function (j) {// 什么？你问我这个是什么意思？
+					 										          	// 这是一个闭包函数(IIFE)，立即执行函数
+					 										              // 接收i的值保存在j中，这个j会一直保存在这个函数作用域
+					 										              liList[j].onclick = function () {
+					 										                console.log(j)
+					 										              }
+					 										          
+					 										            })(i);// 这里可以看成函数的入口，传入i
+					 										          }; 
 					 										console.log(results,status);
 					 										console.log(pagination);
 					 						                getNextPage =
@@ -490,6 +493,50 @@ function setAllMap(map) {
 		          map: map,
 		          title: String(pos.lat) + ", " + String(pos.lng),
 		        });
+				console.log(pos)
+				var service = new google.maps.places.PlacesService(map);
+					                 service.nearbySearch({
+					                 location: {lat: map.getCenter().lat(),
+					     lng: map.getCenter().lng()},
+					                 radius: 500},
+					 						  function(results, status, pagination) {
+													
+					 						                if (status !== "OK"){ let places=JSON.parse(JSON.stringify(results)); placesList.innerHTML=""; return;}
+					 										console.log(results)
+					 										let places=JSON.parse(JSON.stringify(results))
+					 						                // createMarkers(results);？
+					 						                // moreButton.disabled = !pagination.hasNextPage;
+					 										 var placesList = document.getElementById("places");
+															placesList.innerHTML=""
+					 									
+															 console.log(placesList)
+					 										for (var i = 0, place; (place = places[i]); i++) {
+					 										 var li = document.createElement("li");
+					 										            li.textContent = place.name;
+					 										            placesList.appendChild(li);
+					 													 // bounds.extend(results.geometry.location);
+					 													}
+					 										           let liList= document.getElementsByTagName("li");
+					 										           console.log(liList)
+					 										           for (var i = 0, len = liList.length; i < len; ++i) {
+					 										             (function (j) {// 什么？你问我这个是什么意思？
+					 										           	// 这是一个闭包函数(IIFE)，立即执行函数
+					 										               // 接收i的值保存在j中，这个j会一直保存在这个函数作用域
+					 										               liList[j].onclick = function () {
+					 										                 console.log(j)
+					 										               }
+					 										           
+					 										             })(i)// 这里可以看成函数的入口，传入i
+					 										           }
+					 										console.log(results,status);
+					 										console.log(pagination);
+					 						                getNextPage =
+					 						                  pagination.hasNextPage &&
+					 						                  function() {
+					 						                    pagination.nextPage();
+					 						                  };
+					 						              });
+				// })
 				geocodeLatLng(geoCoder, map, infowindow,pos.lat,pos.lng);
 		      }, function() {
 				  console.log("error")
@@ -516,7 +563,7 @@ function setAllMap(map) {
           });
           var markers = []; // Listen for the event fired when the user selects a prediction and retrieve
           // more details for that place.
-
+		
           searchBox.addListener("places_changed", function() {
             var places = searchBox.getPlaces();
 
