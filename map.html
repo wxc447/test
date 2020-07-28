@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<title>Places Search Box</title>
+		<title>get address</title>
 		<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 		<script type="text/javascript" src="https://js.cdn.aliyun.dcloud.net.cn/dev/uni-app/uni.webview.1.5.1.js"></script>
 		<!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZxAbfgeDc2z6YUOaBs8b0NuQgm_cHLdw
@@ -103,9 +103,10 @@
 				width: 70%;
 				border-radius: 20px;
 				/* max-width: 750px; */
-				border: 1px solid #999;
+				border: 0;
 				height: 30px;
 				outline: none;
+				box-shadow: 1px 1px 0 #;
 			}
 
 			#pac-input:focus {
@@ -220,6 +221,7 @@
 		let index=0;
 		 var getNextPage = null;
 		 let placesArr=[];
+		 var autocomplete = "";
 		 function geocodeLatLng(geocoder, map, infowindow,lat,lng,mask) {
 		   // var input = document.getElementById('latlng').value;
 		   // var latlngStr = input.split(',', 2);
@@ -336,6 +338,7 @@ function setAllMap(map) {
 			
 		}
         function initAutocomplete() {
+			
 			 // (navigator.geolocation)
 			 //                {
 			          
@@ -445,7 +448,7 @@ function setAllMap(map) {
 					 						                if (status !== "OK"){ let places=JSON.parse(JSON.stringify(results)); var placesList = document.getElementById("places"); placesList.innerHTML=""; return;}
 					 										console.log(results)
 					 										let places=JSON.parse(JSON.stringify(results))
-															placesArr=JSON.parse(JSON.stringify(results))
+															// placesArr=JSON.parse(JSON.stringify(results))
 					 						                // createMarkers(results);？
 					 						                // moreButton.disabled = !pagination.hasNextPage;
 					 										 var placesList = document.getElementById("places");
@@ -465,7 +468,20 @@ function setAllMap(map) {
 					 										              liList[j].onclick = function () {
 					 										               console.log(liList[j])
 																			liList[j].style.color="#15c180"
+																			 placesArr=places[j]
 																			index=j;
+																		// try{
+																		// 																				  let locations={lat:results[j].geometry.location.lat(),lng:results[j].geometry.location.lng()};
+																		// 																				  geoCoder.geocode({
+																		// 																				                       'latLng': locations
+																		// 																				                   }),
+																																						
+																																						   // map.setCenter(locations);
+																		// }catch(err){
+																																						  // console.log(err)
+																		// }
+																		
+																			
 																			for(let k in liList){
 																				if(k!=j){
 																					liList[k].style.color="#333"
@@ -521,7 +537,7 @@ function setAllMap(map) {
 					 						                if (status !== "OK"){ let places=JSON.parse(JSON.stringify(results)); placesList.innerHTML=""; return;}
 					 										console.log(results)
 					 										let places=JSON.parse(JSON.stringify(results))
-																placesArr=JSON.parse(JSON.stringify(results))
+																
 					 						                // createMarkers(results);？
 					 						                // moreButton.disabled = !pagination.hasNextPage;
 					 										 var placesList = document.getElementById("places");
@@ -543,7 +559,20 @@ function setAllMap(map) {
 					 										               liList[j].onclick = function () {
 					 										                 console.log(j)
 																			  console.log(liList[j]);
-																			  liList[j].style.color="#15c180"
+																			  liList[j].style.color="#15c180";
+																			  placesArr=places[j]
+																				  
+																			 //  try{
+																				//   let locations={lat:results[j].geometry.location.lat(),lng:results[j].geometry.location.lng()};
+																				//   geoCoder.geocode({
+																				//                        'latLng': locations
+																				//                    }),
+																				
+																				//    map.setCenter(locations);
+																			 //  }catch(err){
+																				//   console.log(err)
+																			 //  }
+																			  
 																			index=j;
 																			for(let k in liList){
 																				if(k!=j){
@@ -581,27 +610,36 @@ function setAllMap(map) {
 			console.log(map.getCenter().lat())
 			console.log(map.getCenter().lng())
           var input = document.getElementById("pac-input");
-          var searchBox = new google.maps.places.SearchBox(input);
-          map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); // Bias the SearchBox results towards current map's viewport.
+		
+		  //  autocomplete()
 
+          var searchBox = new google.maps.places.SearchBox(input);
+		   // autocomplete=new google.maps.places.Autocomplete(input)
+          map.controls[google.maps.ControlPosition.TOP_LEFT].push(input); // Bias the SearchBox results towards current map's viewport.
+  // 设置搜索地址为科特迪瓦
+		  // autocomplete=new google.maps.places.Autocomplete(input)
+		  //  autocomplete.setComponentRestrictions({'country': "CIV"});
           map.addListener("bounds_changed", function() {
+            // autocomplete.setBounds(map.getBounds());
             searchBox.setBounds(map.getBounds());
           });
           var markers = []; // Listen for the event fired when the user selects a prediction and retrieve
           // more details for that place.
-		
+		// autocomplete.addListener("places_changed", function() {
+		// 	console.log(autocomplete.getPlaces())
           searchBox.addListener("places_changed", function() {
             var places = searchBox.getPlaces();
-
+            // var places = autocomplete.getPlaces();
+			
             if (places.length == 0) {
               return;
             } // Clear out the old markers.
-
+			
             markers.forEach(function(marker) {
               marker.setMap(null);
             });
             markers = []; // For each place, get the icon, name and location.
-
+			
             var bounds = new google.maps.LatLngBounds();
             places.forEach(function(place) {
               if (!place.geometry) {
@@ -638,7 +676,7 @@ function setAllMap(map) {
             map.fitBounds(bounds);
           });
         }
-
+		
         exports.initAutocomplete = initAutocomplete;
       })((this.window = this.window || {}));
 	  
