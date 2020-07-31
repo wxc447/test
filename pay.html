@@ -392,7 +392,9 @@ document.write(url)
 		cpm_trans_id.value=content.cpm_trans_id;
 		cpm_amount.value=content.cpm_amount;
 		signature.value=content.signature;
+		setTimeout(()=>{
+			document.getElementById("button2").click();
+		},200)
 		
-		document.getElementById("button2").click();
 	</script>
 </html>
