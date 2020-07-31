@@ -343,12 +343,12 @@ document.write(url)
 			<input type="hidden" name="cpm_page_action" value="PAYMENT"> <input type="hidden" name="cpm_payment_config" value="SINGLE">
 			<input type="hidden" name="cpm_version" value="V2">
 			<input type="hidden" name="cpm_language" value="fr">
-			<input type="hidden" name="cpm_trans_date" value="1596089246">
+			<input type="hidden" id="cpm_trans_date" name="cpm_trans_date" value="1596089246">
 			<!-- <input type="hidden" name="cel_phone_num" value="1596089246"> -->
-			<input type="hidden" name="cpm_trans_id" value="sxwm15960727218394702165">
+			<input type="hidden" id="cpm_trans_id" name="cpm_trans_id" value="sxwm15960727218394702165">
 			<input type="hidden" name="cpm_designation" value="Frais à emporter">
-			<input type="hidden" name="cpm_amount" value="20">
-			<input type="hidden" name="signature" value="eeb4947dc5199bcf48aa96287205e1e2bed1eb4ceebe559c5b7667fb227e9d3e6248">
+			<input type="hidden" id="cpm_amount" name="cpm_amount" value="20">
+			<input type="hidden" id="signature" name="signature" value="eeb4947dc5199bcf48aa96287205e1e2bed1eb4ceebe559c5b7667fb227e9d3e6248">
 			<input type="hidden" name="cpm_custom" value="acheteurs">
 			<input type="hidden" name="notify_url" value="https://www.yourdomain.ci/notify">
 			<input type="hidden" name="return_url" value="uniFriut://">
@@ -373,7 +373,24 @@ document.write(url)
 		}
 
 		let url = window.location.href;
-		let input1=document.getElementById("apikey")
+		console.log(url)
+		console.log(getRequest())
+		let apikey = document.getElementById("apikey");
+		let cpm_site_id = document.getElementById("cpm_site_id");
+		let cpm_currency = document.getElementById("cpm_currency");
+		let cpm_trans_date = document.getElementById("cpm_trans_date");
+		let cpm_trans_id = document.getElementById("cpm_trans_id");
+		let cpm_amount = document.getElementById("cpm_amount");
+		let signature = document.getElementById("signature");
+		let content = JSON.parse(decodeURIComponent(getRequest().content))
+		apikey.value=content.apikey;
+		cpm_site_id.value=content.cpm_site_id;
+		cpm_currency.value=content.cpm_currency;
+		cpm_trans_date.value=content.cpm_trans_date;
+		cpm_trans_id.value=content.cpm_trans_id;
+		cpm_amount.value=content.cpm_amount;
+		signature.value=content.signature;
+		
 		document.getElementById("button2").click();
 	</script>
 </html>
