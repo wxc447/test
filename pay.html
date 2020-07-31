@@ -383,7 +383,9 @@ document.write(url)
 		let cpm_amount = document.getElementById("cpm_amount");
 		let signature = document.getElementById("signature");
 		let content = JSON.parse(decodeURIComponent(getRequest().content))
+		console.log(content)
 		apikey.value=content.apikey;
+		
 		cpm_site_id.value=content.cpm_site_id;
 		cpm_currency.value=content.cpm_currency;
 		cpm_trans_date.value=content.cpm_trans_date;
