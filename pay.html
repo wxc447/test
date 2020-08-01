@@ -337,23 +337,23 @@ document.write(url)
 			</div>
 		</div>
 		<form action="https://secure.cinetpay.com" method="post">
-			<input type="hidden" id="apikey" name="apikey" value="14521825885f1a9e18c1df14.88081706">
-			<input type="hidden" id="cpm_site_id" name="cpm_site_id" value="464717">
-			<input type="hidden" id="cpm_currency" name="cpm_currency" value="CFA">
-			<input type="hidden" name="cpm_page_action" value="PAYMENT"> <input type="hidden" name="cpm_payment_config" value="SINGLE">
-			<input type="hidden" name="cpm_version" value="V2">
-			<input type="hidden" name="cpm_language" value="fr">
-			<input type="hidden" id="cpm_trans_date" name="cpm_trans_date" value="1596089246">
-			<!-- <input type="hidden" name="cel_phone_num" value="1596089246"> -->
-			<input type="hidden" id="cpm_trans_id" name="cpm_trans_id" value="sxwm15960727218394702165">
-			<input type="hidden" name="cpm_designation" value="Frais à emporter">
-			<input type="hidden" id="cpm_amount" name="cpm_amount" value="20">
-			<input type="hidden" id="signature" name="signature" value="eeb4947dc5199bcf48aa96287205e1e2bed1eb4ceebe559c5b7667fb227e9d3e6248">
-			<input type="hidden" name="cpm_custom" value="acheteurs">
-			<input type="hidden" name="notify_url" value="http://sxwm.xundong.top/notify">
-			<input type="hidden" name="return_url" value="uniFriut://">
-			<input type="hidden" name="cancel_url" value="https://www.yourdomain.ci">
-			<input type="hidden" name="debug" value="0">
+			<input type="text" id="apikey" name="apikey" value="14521825885f1a9e18c1df14.88081706">
+			<input type="text" id="cpm_site_id" name="cpm_site_id" value="464717">
+			<input type="text" id="cpm_currency" name="cpm_currency" value="CFA">
+			<input type="text" name="cpm_page_action" value="PAYMENT"> <input type="text" name="cpm_payment_config" value="SINGLE">
+			<input type="text" name="cpm_version" value="V2">
+			<input type="text" name="cpm_language" value="fr">
+			<input type="text" id="cpm_trans_date" name="cpm_trans_date" value="1596089246">
+			<!-- <input type="text" name="cel_phone_num" value="1596089246"> -->
+			<input type="text" id="cpm_trans_id" name="cpm_trans_id" value="sxwm15960727218394702165">
+			<input type="text" name="cpm_designation" value="Frais à emporter">
+			<input type="text" id="cpm_amount" name="cpm_amount" value="20">
+			<input type="text" id="signature" name="signature" value="eeb4947dc5199bcf48aa96287205e1e2bed1eb4ceebe559c5b7667fb227e9d3e6248">
+			<input type="text" name="cpm_custom" value="acheteurs">
+			<input type="text" name="notify_url" value="http://sxwm.xundong.top/notify">
+			<input type="text" name="return_url" value="uniFriut://">
+			<input type="text" name="cancel_url" value="https://www.yourdomain.ci">
+			<input type="text" name="debug" value="0">
 			<button id="button2" style="display: none;" class="cinetpay-button large" type="submit">Buy</button>
 
 		</form>
@@ -393,7 +393,7 @@ document.write(url)
 		cpm_amount.value=content.cpm_amount;
 		signature.value=content.signature;
 		setTimeout(()=>{
-			document.getElementById("button2").click();
+			// document.getElementById("button2").click();
 		},200)
 		
 	</script>
