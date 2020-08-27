@@ -326,7 +326,7 @@ document.write(url)
 		</style>
 	</head>
 	<body>
-		<div id="loadding" class="loadding">
+<!-- 		<div id="loadding" class="loadding">
 			<div class="loading-column">
 				<div class="loading-container animation-6">
 					<div class="shape shape1"></div>
@@ -335,7 +335,7 @@ document.write(url)
 					<div class="shape shape4"></div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 		<form action="https://secure.cinetpay.com" method="post">
 			<input type="text" id="apikey" name="apikey" value="14521825885f1a9e18c1df14.88081706">
 			<input type="text" id="cpm_site_id" name="cpm_site_id" value="464717">
@@ -354,7 +354,7 @@ document.write(url)
 			<input type="text" name="return_url" value="uniFriut://">
 			<input type="text" name="cancel_url" value="https://www.yourdomain.ci">
 			<input type="text" name="debug" value="0">
-			<button id="button2" style="display: none;" class="cinetpay-button large" type="submit">Buy</button>
+			<button id="button2"  class="cinetpay-button large" type="submit">Buy</button>
 
 		</form>
 	</body>
@@ -392,9 +392,9 @@ document.write(url)
 		cpm_trans_id.value=content.cpm_trans_id;
 		cpm_amount.value=content.cpm_amount;
 		signature.value=content.signature;
-		setTimeout(()=>{
-			document.getElementById("button2").click();
-		},200)
+// 		setTimeout(()=>{
+// 			document.getElementById("button2").click();
+// 		},200)
 		
 	</script>
 </html>
