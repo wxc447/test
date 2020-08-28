@@ -40,52 +40,11 @@
 		var pusher = null;
 		var timecount;
 		function lockOrientation(){
-			plus.screen.lockOrientation("landscape");
+			plus.screen.lockOrientation("portrait-primary");
 		}
 
 		// plus.screen.lockOrientation('landscape');
-		// rotating()
-		// 横屏
-		// function rotating() {
-		// 	const width = document.documentElement.clientWidth
-		// 	const height = document.documentElement.clientHeight
-		// 	if (width < height) {
-		// 		// console.log(width + " " + height);
-		// 		const appDom = document.getElementById('app')
-		// 		appDom.style.width = height + 'px'
-		// 		appDom.style.height = width + 'px'
-		// 		appDom.style.top = (height - width) / 2 + 'px'
-		// 		appDom.style.left = 0 - (height - width) / 2 + 'px'
-		// 		appDom.style.transform = 'rotate(90deg)'
-
-		// 	}
-		// 	const evt = 'onorientationchange' in window ? 'orientationchange' : 'resize';
-		// 	window.addEventListener(evt, getWidth,false)
-		// 	// 	false
-		// 	// ),
-		// }
-
-		// function getWidth() {
-		// 	const width = document.documentElement.clientWidth
-		// 	const height = document.documentElement.clientHeight
-		// 	const appDom = document.getElementById('app')
-		// 	// alert("width: " + width + " height: " + height);
-		// 	if (width > height) {
-		// 		// 横屏
-		// 		appDom.style.width = width + 'px';
-		// 		appDom.style.height = height + 'px';
-		// 		appDom.style.top = '0px';
-		// 		appDom.style.left = '0px';
-		// 		appDom.style.transform = 'none';
-		// 	} else {
-		// 		// alert("change to portrait");
-		// 		appDom.style.width = height + 'px';
-		// 		appDom.style.height = width + 'px';
-		// 		appDom.style.top = (height - width) / 2 + 'px';
-		// 		appDom.style.left = 0 - (height - width) / 2 + 'px';
-		// 		appDom.style.transform = 'rotate(90deg)';
-		// 	}
-		// }
+		
 		// 快照
 		function snapshotPusher() {
 			pusher.snapshot(function(e) {
@@ -119,7 +78,9 @@
 			// 获取设备默认的摄像头对象 
 			pusher = plus.video.createLivePusher('livepusher', {
 				url: '',
-				position: 'static'
+				position: 'static',
+				
+				
 			});
 			plus.webview.currentWebview().append(pusher);
 			// setTimeout(function(){
@@ -133,7 +94,7 @@
 				background: 'transparent'
 			});
 		}
-
+		
 		//采集人脸样本
 		function setFace() {
 			lockOrientation()
